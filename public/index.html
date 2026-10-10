@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102a43">
+  <title>WayUni — Find Your Way</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#"><span class="brand-mark">W</span><span>Way<span class="accent">Uni</span><small>YOUR CAMPUS, YOUR WAY</small></span></a>
+    <nav><a href="#explore">Explore</a><a href="#fresher-help">Fresher help</a><a href="#about">About</a></nav>
+    <button id="locateBtn" class="button button-light">◎ Find me</button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="pulse"></span> MASENO UNIVERSITY · CAMPUS GUIDE</div>
+        <h1>New here?<br><span>Find your way.</span></h1>
+        <p class="hero-sub">Lecture halls, hostels, offices and campus essentials — all in one friendly guide.</p>
+        <div class="searchbox">
+          <span>⌕</span><input id="searchInput" type="search" placeholder="Where do you want to go?" aria-label="Search campus places">
+          <button id="searchBtn" class="button button-primary">Search</button>
+        </div>
+        <div class="quick-label">POPULAR DESTINATIONS</div>
+        <div class="quick-picks">
+          <button data-query="library">📚 Library</button><button data-query="hostel">🛏️ Hostels</button><button data-query="administration">🏢 Administration</button><button data-query="college hall">🎓 College Hall</button>
+        </div>
+        <p class="tiny-note">Directions improve when you allow location access. Place data is a starter set and should be verified on campus.</p>
+      </div>
+      <div class="hero-art">
+        <div class="map-card">
+          <div class="map-card-head"><span>YOUR CAMPUS, MADE SIMPLE</span><span class="live-dot"></span></div>
+          <div class="mini-map">
+            <div class="road road-a"></div><div class="road road-b"></div><div class="road road-c"></div>
+            <div class="green green-a"></div><div class="green green-b"></div>
+            <span class="map-label label-a">LIBRARY</span><span class="map-label label-b">LECTURE HALL</span>
+            <span class="pin pin-a">●</span><span class="pin pin-b">●</span><span class="you-dot"></span>
+            <svg class="route-line" viewBox="0 0 320 210" preserveAspectRatio="none"><path d="M45 165 C85 145, 110 165, 142 118 S205 95, 250 42" fill="none" stroke="#087f8c" stroke-width="5" stroke-linecap="round" stroke-dasharray="2 9"/></svg>
+          </div>
+          <div class="freshers-sticker"><span>🧑🏾‍🎓</span><span>🧑🏽‍🎓</span><b>“Where is our lecture hall?”</b></div><div class="map-card-foot"><span><i class="legend-dot"></i> Suggested route</span><strong>One campus at a time</strong></div>
+        </div>
+        <div class="float-chip chip-one">📍 Find any place</div><div class="float-chip chip-two">🧭 Fresher-friendly</div>
+      </div>
+    </section>
+
+    <section class="stats">
+      <div><strong>01</strong><span>Search a destination</span></div><div><strong>02</strong><span>See it on the map</span></div><div><strong>03</strong><span>Open walking directions</span></div>
+    </section>
+
+    <section id="explore" class="content-section">
+      <div class="section-heading"><div><div class="eyebrow">EXPLORE YOUR SURROUNDINGS</div><h2>Campus at a glance</h2><p>Choose a place to view its map marker and get directions.</p></div><span class="data-pill">● Map powered by OpenStreetMap</span></div>
+      <div class="explore-grid">
+        <aside class="places-panel">
+          <div class="places-head"><strong>Places to know</strong><span id="placeCount">Loading…</span></div>
+          <div class="campus-select-wrap"><label for="campusSelect">CAMPUS</label><select id="campusSelect"><option value="main">Main / College Campus</option><option value="siriba">Siriba Campus</option><option value="all">All listed campuses</option></select></div><div class="filter-row"><button class="filter active" data-category="all">All</button><button class="filter" data-category="academic">Academic</button><button class="filter" data-category="hostel">Hostels</button><button class="filter" data-category="service">Services</button></div>
+          <div id="placesList" class="places-list"><div class="loading">Loading campus places…</div></div>
+        </aside>
+        <div class="map-wrap"><div id="map"></div><div class="map-legend"><span><i class="legend-pin"></i> Campus place</span><span><i class="legend-you"></i> Your location</span></div></div>
+      </div>
+      <div id="routePanel" class="route-panel hidden"></div>
+    </section>
+
+    <section id="fresher-help" class="content-section fresher-section">
+      <div class="section-heading"><div><div class="eyebrow">FIRST WEEK? YOU'RE NOT ALONE.</div><h2>A little help for freshers</h2><p>Simple starting points for finding your feet at university.</p></div></div>
+      <div class="fresher-grid">
+        <article class="fresher-card featured"><div class="card-icon">🧭</div><h3>Feeling lost?</h3><p>Pick a known landmark, check the map, then follow the route link. If unsure, ask campus security or an official information desk.</p><button class="text-button" id="startHelp">Show key places →</button></article>
+        <article class="fresher-card"><div class="card-icon">🎓</div><h3>Find academic spaces</h3><p>Look up the library, administration block, halls and other learning spaces before your first class.</p><button class="text-button jump-search" data-query="library">Find learning spaces →</button></article>
+        <article class="fresher-card"><div class="card-icon">🛏️</div><h3>Locate hostels</h3><p>Explore hostel names listed for the main campus and check the precise building with campus staff.</p><button class="text-button jump-search" data-query="hostel">Explore hostels →</button></article>
+        <article class="fresher-card"><div class="card-icon">🤝</div><h3>Need a human guide?</h3><p>Ask a student leader, official help desk, or campus security. Avoid following strangers to isolated places.</p><a class="text-button" href="https://maseno.ac.ke/maseno-contacts" target="_blank" rel="noreferrer">Official university contacts ↗</a></article>
+      </div>
+      <div class="friendly-banner"><span class="banner-icon">💚</span><div><strong>Everyone was new once.</strong><p>Take a breath, ask for help, and give yourself time to learn the campus.</p></div></div>
+    </section>
+
+    <section id="about" class="about-strip"><div><div class="eyebrow">ABOUT WAYUNI</div><h2>Your campus. Your way.</h2><p>WayUni is a student-friendly campus wayfinding prototype. It combines searchable place listings, a map, location support and external walking directions.</p></div><div class="about-badge">W<span>WayUni</span><small>FIND YOUR WAY</small></div></section>
+  </main>
+  <footer><a class="brand footer-brand" href="#"><span class="brand-mark">W</span><span>Way<span class="accent">Uni</span><small>YOUR CAMPUS, YOUR WAY</small></span></a><span>Built for less wandering and more learning.</span><a href="https://maseno.ac.ke/" target="_blank" rel="noreferrer">Maseno University ↗</a></footer>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="/script.js"></script>
+</body>
+</html>

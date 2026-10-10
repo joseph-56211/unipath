@@ -1,0 +1,9 @@
+{
+  "name": "WayUni Campus Guide",
+  "short_name": "WayUni",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f6f9fc",
+  "theme_color": "#102a43",
+  "description": "A fresher-friendly campus wayfinding prototype."
+}
